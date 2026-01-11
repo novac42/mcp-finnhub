@@ -17,7 +17,7 @@ An MCP server to interface with Finnhub API.
   - Get basic financials for a particular stock from [basic financials endpoint](https://finnhub.io/docs/api/company-basic-financials)
 
 - `get_recommendation_trends`
-  - Get recommendation trends for a particular stock from [recommendation trend endpoint](https://finnhub.io/docs/api/company-basic-financials)
+  - Get recommendation trends for a particular stock from [recommendation trend endpoint](https://finnhub.io/docs/api/recommendation-trends)
 
 ## Configuration
 
@@ -63,4 +63,8 @@ To develop or run locally from source:
 1. Clone the repository.
 2. Run `uv sync` to create a virtual environment and install dependencies.
 3. Run `fastmcp dev src/finnhub_mcp/server.py` to start the inspector.
+
+To run the server locally (stdio) via the installed console script:
+
+`FINNHUB_API_KEY=YOUR_API_KEY uv run finnhub-mcp`
 
