@@ -18,3 +18,6 @@ build-backend = "hatchling.build"
 
 [project.urls]
 Home = "https://github.com/catherinedparnell/mcp-finnhub"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/finnhub_mcp"]
