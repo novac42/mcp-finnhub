@@ -3,13 +3,18 @@ name = "mcp-finnhub"
 version = "0.1.0"
 description = "An MCP server to connect with Finnhub financial API."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-     "mcp>=1.0.0",
-     "python-dotenv>=1.0.1",
      "fastmcp>=0.4.0",
      "finnhub-python",
 ]
+
+[project.scripts]
+finnhub-mcp = "finnhub_mcp.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project.urls]
 Home = "https://github.com/catherinedparnell/mcp-finnhub"

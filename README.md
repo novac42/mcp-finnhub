@@ -21,25 +21,46 @@ An MCP server to interface with Finnhub API.
 
 ## Configuration
 
-1. Run `uv sync` to install the dependencies. To install `uv` follow the instructions [here](https://docs.astral.sh/uv/). Then do `source .venv/bin/activate`.
+This MCP server is designed to be run with `uvx` (part of the [uv](https://docs.astral.sh/uv/) toolkit).
 
-2. Setup the `.env` file with the Finnhub API Key credentials.
+### Quickstart (Claude Desktop)
 
+Add the following to your Claude Desktop configuration file:
+
+- On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "finnhub": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/<YOUR_USERNAME>/mcp-finnhub.git", "finnhub-mcp"],
+      "env": {
+        "FINNHUB_API_KEY": "YOUR_API_KEY"
+      }
+    }
+  }
+}
 ```
-FINNUB_API_KEY=<FINNHUB_API_KEY>
-```
 
-3. Run `fastmcp install server.py` to install the server.
+Replace `YOUR_API_KEY` with your actual [Finnhub API Key](https://finnhub.io/).
+Replace `<YOUR_USERNAME>` with your GitHub username (or the owner of the fork you are using).
 
-4. Open the configuration file located at:
+### Environment Variables
 
-   - On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+- `FINNHUB_API_KEY`: **Required**. Your Finnhub API key. This must be passed via the `env` configuration in your MCP client or set in the environment where `finnhub-mcp` runs.
 
-5. Locate the command entry for `uv` and replace it with the absolute path to the `uv` executable. This ensures that the correct version of `uv` is used when starting the server.
+## Troubleshooting
 
-6. Restart Claude Desktop to apply the changes.
+- **Error: FINNHUB_API_KEY environment variable is not set**: Ensure you have added the `"env"` section to your MCP config with the correct key.
+- **Command not found (uvx)**: Ensure you have `uv` installed (`curl -LsSf https://astral.sh/uv/install.sh | sh`).
 
 ## Development
 
-Run `fastmcp dev server.py` to start the MCP server. MCP inspector is helpful for investigating and debugging locally.
+To develop or run locally from source:
+
+1. Clone the repository.
+2. Run `uv sync` to create a virtual environment and install dependencies.
+3. Run `fastmcp dev src/finnhub_mcp/server.py` to start the inspector.
+
