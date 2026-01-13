@@ -172,3 +172,5 @@ cython_debug/
 
 # Project internal documentation
 project-internal-docs/
+# Data directory
+data/
