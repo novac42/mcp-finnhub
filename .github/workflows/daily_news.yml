@@ -1,0 +1,40 @@
+name: Daily Finnhub News
+
+on:
+  schedule:
+    # 6 PM New York Time.
+    # New York is EST (UTC-5) or EDT (UTC-4).
+    # In Winter (Standard Time), 18:00 NY = 23:00 UTC.
+    # In Summer (Daylight Saving), 18:00 NY = 22:00 UTC.
+    # Cron uses UTC. Setting to 23:00 UTC covers Standard Time (Winter).
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install finnhub-python
+
+      - name: Fetch Daily News
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: python scripts/fetch_daily_news.py
+
+      - name: Upload News Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-news-json
+          path: news_output.json
+          retention-days: 7
