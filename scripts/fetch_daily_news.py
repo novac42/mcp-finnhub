@@ -75,7 +75,9 @@ def main():
     logger.info(f"Processed {len(processed_news)} news items from the top 30.")
 
     # 4. Save to JSON
-    output_file = "news_output.json"
+    # Use today's date in the filename
+    today_str = now.strftime("%Y%m%d")
+    output_file = f"news_output_{today_str}.json"
     try:
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(processed_news, f, ensure_ascii=False, indent=2)

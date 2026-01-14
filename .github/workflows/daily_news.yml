@@ -32,9 +32,12 @@ jobs:
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python scripts/fetch_daily_news.py
 
+      - name: Get current date
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
       - name: Upload News Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: daily-news-json
-          path: news_output.json
+          name: daily-news-json-${{ env.DATE }}
+          path: news_output_*.json
           retention-days: 7
