@@ -56,5 +56,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: daily-news-json-${{ env.DATE }}
-          path: workflowdata/news_output_*.json
-          retention-days: 7
+          path: news_output_*.json
+          retention-days: 15
