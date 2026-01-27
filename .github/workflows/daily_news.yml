@@ -10,6 +10,9 @@ on:
     - cron: '0 23 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
@@ -35,9 +38,23 @@ jobs:
       - name: Get current date
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
+      - name: Move artifacts to workflowdata folder
+        run: |
+          mkdir -p workflowdata
+          mv news_output_*.json workflowdata/ || true
+
+      - name: Commit and push artifacts
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"[skip ci]"
+          git pull --rebase origin main
+          git config --local user.name "github-actions[bot]"
+          git add workflowdata/
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: add daily news artifacts $(date +'%Y-%m-%d')"
+          git push
+
       - name: Upload News Artifact
         uses: actions/upload-artifact@v4
         with:
           name: daily-news-json-${{ env.DATE }}
-          path: news_output_*.json
+          path: workflowdata/news_output_*.json
           retention-days: 7
