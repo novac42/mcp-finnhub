@@ -40,4 +40,4 @@ jobs:
         with:
           name: daily-news-json-${{ env.DATE }}
           path: news_output_*.json
-          retention-days: 7
+          retention-days: 15
